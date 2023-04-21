@@ -386,6 +386,7 @@ static void cvUndistortPointsInternal( const CvMat* _src, CvMat* _dst, const CvM
                    const CvMat* _distCoeffs,
                    const CvMat* matR, const CvMat* matP, cv::TermCriteria criteria)
 {
+    printf("Hello\n");
     CV_Assert(criteria.isValid());
     double A[3][3], RR[3][3], k[14]={0,0,0,0,0,0,0,0,0,0,0,0,0,0};
     CvMat matA=cvMat(3, 3, CV_64F, A), _Dk;
@@ -589,6 +590,7 @@ void undistortPoints(InputArray _src, OutputArray _dst,
     if (npoints < 0)
         src = src.t();
     npoints = src.checkVector(2);
+    printf("Hello4 npoints %d %d %d %d %d %d %d\n", npoints, src.channels(), src.total(), src.rows, src.cols, src.dims, depth);
     CV_Assert(npoints >= 0 && src.isContinuous() && (depth == CV_32F || depth == CV_64F));
 
     if (src.cols == 2)
@@ -596,6 +598,7 @@ void undistortPoints(InputArray _src, OutputArray _dst,
 
     _dst.create(npoints, 1, CV_MAKETYPE(depth, 2), -1, true);
     Mat dst = _dst.getMat();
+
 
     CvMat _csrc = cvMat(src), _cdst = cvMat(dst), _ccameraMatrix = cvMat(cameraMatrix);
     CvMat matR, matP, _cdistCoeffs, *pR=0, *pP=0, *pD=0;
@@ -605,7 +608,9 @@ void undistortPoints(InputArray _src, OutputArray _dst,
         pP = &(matP = cvMat(P));
     if( !distCoeffs.empty() )
         pD = &(_cdistCoeffs = cvMat(distCoeffs));
+
     cvUndistortPointsInternal(&_csrc, &_cdst, &_ccameraMatrix, pD, pR, pP, criteria);
+
 }
 
 void undistortImagePoints(InputArray src, OutputArray dst, InputArray cameraMatrix, InputArray distCoeffs, TermCriteria termCriteria)

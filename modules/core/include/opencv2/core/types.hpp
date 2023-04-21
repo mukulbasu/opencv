@@ -334,8 +334,12 @@ public:
     //! default constructor
     Size_();
     Size_(_Tp _width, _Tp _height);
+    Size_(const Size_& sz) {
+        width = sz.width;
+        height = sz.height;
+    }
 #if OPENCV_ABI_COMPATIBILITY < 500
-    Size_(const Size_& sz) = default;
+    // Size_(const Size_& sz) = default;
     Size_(Size_&& sz) CV_NOEXCEPT = default;
 #endif
     Size_(const Point_<_Tp>& pt);

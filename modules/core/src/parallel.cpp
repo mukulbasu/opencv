@@ -716,7 +716,7 @@ void setNumThreads( int threads_ )
     if (api)
     {
         api->setNumThreads(numThreads);
-    }
+    } 
 
 #ifdef HAVE_TBB
 

@@ -591,7 +591,7 @@ void DescriptorMatcher::knnMatch( InputArray queryDescriptors, InputArray trainD
                                   InputArray mask, bool compactResult ) const
 {
     CV_INSTRUMENT_REGION();
-
+    printf("Hello knnMatch generic\n");
     Ptr<DescriptorMatcher> tempMatcher = clone(true);
     tempMatcher->add(trainDescriptors);
     tempMatcher->knnMatch( queryDescriptors, matches, knn, std::vector<Mat>(1, mask.getMat()), compactResult );
@@ -648,16 +648,20 @@ void DescriptorMatcher::knnMatch( InputArray queryDescriptors, std::vector<std::
                                   InputArrayOfArrays masks, bool compactResult )
 {
     CV_INSTRUMENT_REGION();
-
+    printf("Hello knnMatch generic 1 %d\n", knn);
     if( empty() || queryDescriptors.empty() )
         return;
 
     CV_Assert( knn > 0 );
+    printf("Hello knnMatch generic 2 %d\n", knn);
 
     checkMasks( masks, queryDescriptors.size().height );
+    printf("Hello knnMatch generic 3 %d\n", knn);
 
     train();
+    printf("Hello knnMatch generic 4 %d\n", knn);
     knnMatchImpl( queryDescriptors, matches, knn, masks, compactResult );
+    printf("Hello knnMatch generic 5 %d\n", knn);
 }
 
 void DescriptorMatcher::radiusMatch( InputArray queryDescriptors, std::vector<std::vector<DMatch> >& matches, float maxDistance,
@@ -1159,19 +1163,28 @@ void FlannBasedMatcher::clear()
 
 void FlannBasedMatcher::train()
 {
+    printf("Hello flann train 1\n");
     CV_INSTRUMENT_REGION();
+    printf("Hello flann train 2\n");
 
     if( !flannIndex || mergedDescriptors.size() < addedDescCount )
     {
+        printf("Hello flann train 3\n");
         // FIXIT: Workaround for 'utrainDescCollection' issue (PR #2142)
         if (!utrainDescCollection.empty())
         {
+            printf("Hello flann train 4\n");
             CV_Assert(trainDescCollection.size() == 0);
+            printf("Hello flann train 5\n");
             for (size_t i = 0; i < utrainDescCollection.size(); ++i)
                 trainDescCollection.push_back(utrainDescCollection[i].getMat(ACCESS_READ));
+            printf("Hello flann train 6\n");
         }
+        printf("Hello flann train 7\n");
         mergedDescriptors.set( trainDescCollection );
+        printf("Hello flann train 8\n");
         flannIndex = makePtr<flann::Index>( mergedDescriptors.getDescriptors(), *indexParams );
+        printf("Hello flann train 9\n");
     }
 }
 
@@ -1432,7 +1445,7 @@ void FlannBasedMatcher::knnMatchImpl( InputArray _queryDescriptors, std::vector<
                                      InputArrayOfArrays /*masks*/, bool /*compactResult*/ )
 {
     CV_INSTRUMENT_REGION();
-
+    printf("Hello in KNN match FLANN");
     Mat queryDescriptors = _queryDescriptors.getMat();
     Mat indices( queryDescriptors.rows, knn, CV_32SC1 );
     Mat dists( queryDescriptors.rows, knn, CV_32FC1);

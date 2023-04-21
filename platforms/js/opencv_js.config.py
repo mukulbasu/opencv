@@ -144,7 +144,7 @@ features2d = {'Feature2D': ['detect', 'compute', 'detectAndCompute', 'descriptor
               'KAZE': ['create', 'setExtended', 'getExtended', 'setUpright', 'getUpright', 'setThreshold', 'getThreshold', 'setNOctaves', 'getNOctaves', 'setNOctaveLayers', 'getNOctaveLayers', 'setDiffusivity', 'getDiffusivity', 'getDefaultName'],
               'AKAZE': ['create', 'setDescriptorType', 'getDescriptorType', 'setDescriptorSize', 'getDescriptorSize', 'setDescriptorChannels', 'getDescriptorChannels', 'setThreshold', 'getThreshold', 'setNOctaves', 'getNOctaves', 'setNOctaveLayers', 'getNOctaveLayers', 'setDiffusivity', 'getDiffusivity', 'getDefaultName'],
               'DescriptorMatcher': ['add', 'clear', 'empty', 'isMaskSupported', 'train', 'match', 'knnMatch', 'radiusMatch', 'clone', 'create'],
-              'BFMatcher': ['isMaskSupported', 'create'],
+              'BFMatcher': ['isMaskSupported', 'create'],'FlannBasedMatcher': ['isMaskSupported', 'create'],
               '': ['drawKeypoints', 'drawMatches', 'drawMatchesKnn']}
 
 photo = {'': ['createAlignMTB', 'createCalibrateDebevec', 'createCalibrateRobertson', \
@@ -178,6 +178,11 @@ aruco = {'': ['detectMarkers', 'drawDetectedMarkers', 'drawAxis', 'estimatePoseS
 
 calib3d = {
     '': [
+        'findFundamentalMat',
+        'findEssentialMat',
+        'recoverPose',
+        'decomposeEssentialMat',
+        'rot2euler',
         'findHomography',
         'calibrateCameraExtended',
         'drawFrameAxes',
@@ -190,10 +195,14 @@ calib3d = {
         'solvePnPRefineLM',
         'projectPoints',
         'undistort',
+        'undistortPoints',
+        'undistortPointsIter',
+        'undistortImagePoints',
 
         # cv::fisheye namespace
         'fisheye_initUndistortRectifyMap',
         'fisheye_projectPoints',
+        'fisheye_undistortPoints',
     ],
 }
 

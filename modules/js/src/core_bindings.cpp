@@ -133,6 +133,11 @@ namespace binding_utils
         return new cv::Mat(rows, cols, type, reinterpret_cast<void*>(data), step);
     }
 
+    cv::DMatch* createDMatch(int queryIdx, int trainIdx, int imageIdx, float distance)
+    {
+        return new cv::DMatch(queryIdx, trainIdx, imageIdx, distance);
+    }
+
     static emscripten::val getMatSize(const cv::Mat& mat)
     {
         emscripten::val size = emscripten::val::array();
@@ -607,19 +612,35 @@ EMSCRIPTEN_BINDINGS(binding_utils)
     function("rotatedRectBoundingRect", select_overload<Rect(const cv::RotatedRect&)>(&binding_utils::rotatedRectBoundingRect));
     function("rotatedRectBoundingRect2f", select_overload<Rect2f(const cv::RotatedRect&)>(&binding_utils::rotatedRectBoundingRect2f));
 
-    emscripten::value_object<cv::KeyPoint>("KeyPoint")
-        .field("angle", &cv::KeyPoint::angle)
-        .field("class_id", &cv::KeyPoint::class_id)
-        .field("octave", &cv::KeyPoint::octave)
-        .field("pt", &cv::KeyPoint::pt)
-        .field("response", &cv::KeyPoint::response)
-        .field("size", &cv::KeyPoint::size);
+    // emscripten::value_object<cv::KeyPoint>("KeyPoint")
+    //     .field("angle", &cv::KeyPoint::angle)
+    //     .field("class_id", &cv::KeyPoint::class_id)
+    //     .field("octave", &cv::KeyPoint::octave)
+    //     .field("pt", &cv::KeyPoint::pt)
+    //     .field("response", &cv::KeyPoint::response)
+    //     .field("size", &cv::KeyPoint::size);
+    
+    emscripten::class_<cv::KeyPoint>("KeyPoint")
+        .constructor<float, float, float>()
+        .property("angle", &cv::KeyPoint::angle)
+        .property("class_id", &cv::KeyPoint::class_id)
+        .property("octave", &cv::KeyPoint::octave)
+        .property("pt", &cv::KeyPoint::pt)
+        .property("response", &cv::KeyPoint::response)
+        .property("size", &cv::KeyPoint::size);
 
-    emscripten::value_object<cv::DMatch>("DMatch")
-        .field("queryIdx", &cv::DMatch::queryIdx)
-        .field("trainIdx", &cv::DMatch::trainIdx)
-        .field("imgIdx", &cv::DMatch::imgIdx)
-        .field("distance", &cv::DMatch::distance);
+    // emscripten::value_object<cv::DMatch>("DMatch")
+    //     .field("queryIdx", &cv::DMatch::queryIdx)
+    //     .field("trainIdx", &cv::DMatch::trainIdx)
+    //     .field("imgIdx", &cv::DMatch::imgIdx)
+    //     .field("distance", &cv::DMatch::distance);
+    
+    emscripten::class_<cv::DMatch>("DMatch")
+        .constructor<int, int, int, float>()
+        .property("queryIdx", &cv::DMatch::queryIdx)
+        .property("trainIdx", &cv::DMatch::trainIdx)
+        .property("imgIdx", &cv::DMatch::imgIdx)
+        .property("distance", &cv::DMatch::distance);
 
     emscripten::value_array<cv::Scalar_<double>> ("Scalar")
         .element(emscripten::index<0>())

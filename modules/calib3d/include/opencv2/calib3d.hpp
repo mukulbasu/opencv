@@ -2684,12 +2684,16 @@ scenario, points1 and points2 are the same input for findEssentialMat.:
     recoverPose(points1, points2, cameraMatrix1, distCoeffs1, cameraMatrix2, distCoeffs2, E, R, t, mask);
 @endcode
  */
+
 CV_EXPORTS_W int recoverPose( InputArray points1, InputArray points2,
                             InputArray cameraMatrix1, InputArray distCoeffs1,
                             InputArray cameraMatrix2, InputArray distCoeffs2,
                             OutputArray E, OutputArray R, OutputArray t,
                             int method = cv::RANSAC, double prob = 0.999, double threshold = 1.0,
                             InputOutputArray mask = noArray());
+                
+
+CV_EXPORTS_W cv::Mat rot2euler(InputArray arg);
 
 /** @brief Recovers the relative camera rotation and the translation from an estimated essential
 matrix and the corresponding points in two images, using cheirality check. Returns the number of
@@ -3713,8 +3717,7 @@ of 4, 5, 8, 12 or 14 elements. If the vector is NULL/empty, the zero distortion 
 @param P New camera matrix (3x3) or new projection matrix (3x4) \f$\begin{bmatrix} {f'}_x & 0 & {c'}_x & t_x \\ 0 & {f'}_y & {c'}_y & t_y \\ 0 & 0 & 1 & t_z \end{bmatrix}\f$. P1 or P2 computed by
 #stereoRectify can be passed here. If the matrix is empty, the identity new camera matrix is used.
  */
-CV_EXPORTS_W
-void undistortPoints(InputArray src, OutputArray dst,
+CV_EXPORTS_W void undistortPoints(InputArray src, OutputArray dst,
                      InputArray cameraMatrix, InputArray distCoeffs,
                      InputArray R = noArray(), InputArray P = noArray());
 /** @overload
